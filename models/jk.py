@@ -35,7 +35,8 @@ class JKSize(object):
 
 class JK(object):
 
-    def __init__(self, name: str, size: JKSize, count: int):
+    def __init__(self, name: str, size: JKSize, count: int, _id=-1):
         self._name = name
         self._size = size
         self._count = count
+        self._id = -1

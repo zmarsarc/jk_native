@@ -1,5 +1,5 @@
 import sqlite3
-from jk import JKSize
+from jk import JKSize, JK
 
 
 class Database(object):
@@ -54,6 +54,9 @@ class Database(object):
             result.append(JKSize(row[1], row[2], row[0]))
 
         return result
+
+    def add_new_jk(self, jk: JK) -> JK:
+        pass
 
 
 if __name__ == '__main__':
