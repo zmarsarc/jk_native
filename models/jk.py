@@ -36,7 +36,43 @@ class JKSize(object):
 class JK(object):
 
     def __init__(self, name: str, size: JKSize, count: int, _id=-1):
-        self._name = name
-        self._size = size
-        self._count = count
-        self._id = -1
+        self.name = name
+        self.size = size
+        self.count = count
+        self._id = _id
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, _name):
+        if _name == '':
+            raise ValueError('jk name should be specified')
+        self._name = _name
+
+    @property
+    def size(self):
+        return self._size
+
+    @size.setter
+    def size(self, _size):
+        if not isinstance(_size, JKSize):
+            raise TypeError('size should be a JKSize')
+        if _size.id == -1:
+            raise ValueError('size not exists, add new size first')
+        self._size = _size
+
+    @property
+    def count(self):
+        return self._count
+
+    @count.setter
+    def count(self, _count):
+        if _count < 0:
+            raise ValueError('count should greater then 0')
+        self._count = _count
+
+    @property
+    def id(self):
+        return self._id

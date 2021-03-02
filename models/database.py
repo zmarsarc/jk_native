@@ -2,6 +2,11 @@ import sqlite3
 from jk import JKSize, JK
 
 
+class NameExistsError(ValueError):
+    def __init__(self, msg):
+        super(NameExistsError, self).__init__(msg)
+
+
 class Database(object):
 
     _jk_size_scheme = "CREATE TABLE if not EXISTS jk_size(id integer primary key AUTOINCREMENT," \
@@ -10,6 +15,7 @@ class Database(object):
                       "CHECK(size IN ('xs', 's', 'm', 'l', 'xl')));"
 
     _jk_scheme = 'CREATE TABLE if not EXISTS jk(id integer primary key AUTOINCREMENT,' \
+                 'name VARCHAR(50) NOT NULL UNIQUE,' \
                  'size integer not NULL,' \
                  'total integer not NULL DEFAULT(0),' \
                  'foreign KEY(size) REFERENCES jk_size(id));'
@@ -56,7 +62,30 @@ class Database(object):
         return result
 
     def add_new_jk(self, jk: JK) -> JK:
-        pass
+        cur = self._conn.cursor()
+        if len(self.find_jk(jk.name)) != 0:
+            raise NameExistsError('name {0} already exists'.format(jk.name))
+        _id = cur.execute('INSERT INTO jk(name, size, total) VALUES(?, ?, ?)',
+                          (jk.name, jk.size.id, jk.count)).lastrowid
+        return JK(jk.name, jk.size, jk.count, _id)
+
+    no_matter_what_jk_name = ''
+    no_matter_what_jk_size = None
+
+    def find_jk(self, name: str = no_matter_what_jk_name) -> list:
+        sql = 'SELECT id, name, size, total FROM jk WHERE 1=1'
+        cond = ''
+        args = []
+        if name != self.no_matter_what_jk_name:
+            cond += " AND name LIKE ?"
+            args.append('%{0}%'.format(name))
+
+        cur = self._conn.cursor()
+        result = []
+        for row in cur.execute(sql + cond, args):
+            result.append(JK(row[1], row[2], row[3], row[0]))
+
+        return result
 
 
 if __name__ == '__main__':
