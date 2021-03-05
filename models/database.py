@@ -75,23 +75,25 @@ class Database(object):
             raise NameExistsError(f'name {jk.name} already exists')
         _id = cur.execute('INSERT INTO jk(name, size, total) VALUES(?, ?, ?)',
                           (jk.name, jk.size.id, jk.count)).lastrowid
+        self._conn.commit()
         return JK(jk.name, jk.size, jk.count, _id)
 
     no_matter_what_jk_name = ''
     no_matter_what_jk_size = None
 
     def find_jk(self, name: str = no_matter_what_jk_name) -> list:
-        sql = 'SELECT id, name, size, total FROM jk WHERE 1=1'
+        sql = 'SELECT a.id, a.name, a.size, a.total, b.size, b.length FROM jk as a, jk_size as b ' \
+              'WHERE a.size = b.id'
         cond = ''
         args = []
         if name != self.no_matter_what_jk_name:
-            cond += " AND name LIKE ?"
+            cond += " AND a.name LIKE ?"
             args.append('%{0}%'.format(name))
 
         cur = self._conn.cursor()
         result = []
         for row in cur.execute(sql + cond, args):
-            result.append(JK(row[1], row[2], row[3], row[0]))
+            result.append(JK(row[1], JKSize(row[4], row[5], row[2]), row[3], row[0]))
 
         return result
 
