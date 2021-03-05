@@ -1,7 +1,8 @@
 import sys
 import random
-from PySide6 import QtCore, QtWidgets, QtGui
-import sqlite3
+from PySide6 import QtCore, QtWidgets
+from models.database import Database
+from models.jk_model import JKModel
 
 SIZE_XS = 30
 SIZE_S = 31
@@ -46,19 +47,15 @@ class MyWidget(QtWidgets.QWidget):
         self.table.setItem(row, 2, QtWidgets.QTableWidgetItem(str(length)))
         self.table.setItem(row, 3, QtWidgets.QTableWidgetItem(str(count)))
 
+
 if __name__ == '__main__':
-    conn = sqlite3.connect('storage.db')
-    c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS jk(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, size SMALLINT NOT NULL, length INT NOT NULL DEFAULT(0), count INT NOT NULL DEFAULT(0));')
-    conn.commit()
+    db = Database('storage.db')
 
     app = QtWidgets.QApplication([])
-    widget = MyWidget()
-    widget.resize(800, 600)
-    widget.show()
 
-    for row in c.execute('SELECT name, size, length, count FROM jk'):
-        widget.add_item(row[0], row[1], row[2], row[3])
+    model = JKModel(db)
+    view = QtWidgets.QTableView()
+    view.setModel(model)
+    view.show()
 
     sys.exit(app.exec_())
-    conn.close()

@@ -1,5 +1,5 @@
 import sqlite3
-from jk import JKSize, JK
+from models.jk import JK, JKSize
 
 
 class NameExistsError(ValueError):
@@ -61,10 +61,18 @@ class Database(object):
 
         return result
 
+    def get_jk_size(self, size_id: int) -> JKSize:
+        cur = self._conn.cursor()
+        sql = 'SELECT id, size, length FROM jk_size WHERE id = ?'
+        result = []
+        for row in cur.execute(sql, (size_id,)):
+            result.append(JKSize(row[1], row[2], row[0]))
+        return result[0]
+
     def add_new_jk(self, jk: JK) -> JK:
         cur = self._conn.cursor()
         if len(self.find_jk(jk.name)) != 0:
-            raise NameExistsError('name {0} already exists'.format(jk.name))
+            raise NameExistsError(f'name {jk.name} already exists')
         _id = cur.execute('INSERT INTO jk(name, size, total) VALUES(?, ?, ?)',
                           (jk.name, jk.size.id, jk.count)).lastrowid
         return JK(jk.name, jk.size, jk.count, _id)
