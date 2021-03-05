@@ -3,12 +3,6 @@ from PySide6 import QtWidgets
 from models.database import Database
 from models.jk_model import JKModel
 
-SIZE_XS = 30
-SIZE_S = 31
-SIZE_M = 32
-SIZE_L = 33
-SIZE_XL = 34
-
 
 if __name__ == '__main__':
     db = Database('storage.db')
