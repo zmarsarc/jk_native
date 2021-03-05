@@ -7,6 +7,17 @@ import time
 
 class JKModel(QAbstractTableModel):
 
+    _JK_NAME = 0
+    _JK_SIZE_CODE = 1
+    _JK_LENGTH = 2
+    _JK_COUNT = 3
+    _column_header = {
+        _JK_NAME: '名字',
+        _JK_SIZE_CODE: '尺码',
+        _JK_LENGTH: '裙长',
+        _JK_COUNT: '库存'
+    }
+
     def __init__(self, db: Database, parent=None):
         super(JKModel, self).__init__(parent)
         self._db = db
@@ -18,25 +29,24 @@ class JKModel(QAbstractTableModel):
         return len(self._jks)
 
     def columnCount(self, parent=...) -> int:
-        # 总是4，名称，尺码，裙长和库存
-        return 4
+        return len(self._column_header)
 
     def data(self, index: QModelIndex, role: int = ...) -> any:
         if not index.isValid():
             return None
         if index.row() >= len(self._jks):
             return None
-        if index.column() >= 4:
+        if index.column() >= len(self._column_header):
             return None
         if role == Qt.DisplayRole:
             # 第一列是名称，最后一列是库存，中间两列的数据通过jk_size查
-            if index.column() == 0:
+            if index.column() == self._JK_NAME:
                 return self._jks[index.row()].name
-            if index.column() == 1:
+            if index.column() == self._JK_SIZE_CODE:
                 return self._jks[index.row()].size.size_code
-            if index.column() == 2:
+            if index.column() == self._JK_LENGTH:
                 return self._jks[index.row()].size.length
-            if index.column() == 3:
+            if index.column() == self._JK_COUNT:
                 return self._jks[index.row()].count
         return None
 
@@ -44,7 +54,7 @@ class JKModel(QAbstractTableModel):
         if role != Qt.DisplayRole:
             return None
         if orientation == Qt.Horizontal:
-            return ['名称', '尺码', '裙长', '库存'][section]
+            return self._column_header[section]
         else:
             if section >= len(self._jks):
                 return None
