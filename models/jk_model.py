@@ -2,6 +2,7 @@ from PySide6.QtCore import *
 
 from models.database import Database
 from models.jk import JK, JKSize
+import time
 
 
 class JKModel(QAbstractTableModel):
@@ -50,10 +51,21 @@ class JKModel(QAbstractTableModel):
             return self._jks[section].id
 
     def insertRows(self, row: int, count: int, parent: QModelIndex = ...) -> bool:
-        self.beginInsertRows(parent, 0, 1)
-        self._jks.append(JK('新jk', JKSize('m', 42, 1), 0))
-        self.endInsertRows()
         return True
 
     def removeRow(self, row: int, parent: QModelIndex = ...) -> bool:
         return True
+
+    def create_new_jk(self):
+        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
+
+        new_size = JKSize('m', 42)
+        new_size = self._db.add_new_jk_size(new_size)
+
+        jk = JK('新JK'+str(time.time()), new_size, 0)
+        jk = self._db.add_new_jk(jk)
+
+        self._jks.append(jk)
+
+        self.endInsertRows()
+        pass

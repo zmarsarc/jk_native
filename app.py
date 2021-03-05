@@ -20,7 +20,7 @@ if __name__ == '__main__':
     view.setModel(model)
 
     button = QtWidgets.QPushButton('add new')
-    button.clicked.connect(lambda: model.insertRows(0, 1, model.index(0, 0)))
+    button.clicked.connect(model.create_new_jk)
 
     splitter = QtWidgets.QSplitter()
     splitter.addWidget(view)
