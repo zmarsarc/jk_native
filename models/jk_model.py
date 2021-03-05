@@ -55,11 +55,5 @@ class JKModel(QAbstractTableModel):
         self.endInsertRows()
         return True
 
-    def insertColumn(self, column: int, parent: QModelIndex = ...) -> bool:
-        return True
-
     def removeRow(self, row: int, parent: QModelIndex = ...) -> bool:
-        return True
-
-    def removeColumn(self, column: int, parent: QModelIndex = ...) -> bool:
         return True
