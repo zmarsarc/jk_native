@@ -56,6 +56,15 @@ if __name__ == '__main__':
     model = JKModel(db)
     view = QtWidgets.QTableView()
     view.setModel(model)
-    view.show()
+
+    button = QtWidgets.QPushButton('add new')
+    button.clicked.connect(lambda: model.insertRows(0, 1, model.index(0, 0)))
+
+    splitter = QtWidgets.QSplitter()
+    splitter.addWidget(view)
+    splitter.addWidget(button)
+
+    splitter.setMinimumSize(800, 600)
+    splitter.show()
 
     sys.exit(app.exec_())
