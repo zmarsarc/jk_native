@@ -66,6 +66,33 @@ class JKModel(QAbstractTableModel):
     def removeRow(self, row: int, parent: QModelIndex = ...) -> bool:
         return True
 
+    def flags(self, index: QModelIndex):
+        if not index.isValid():
+            return Qt.NoItemFlags
+        if index.row() >= len(self._jks) or index.column() >= len(self._column_header):
+            return Qt.NoItemFlags
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
+
+    def setData(self, index: QModelIndex, value, role: int = ...) -> bool:
+        if not index.isValid():
+            return False
+        if index.row() >= len(self._jks) or index.column() >= len(self._column_header):
+            return False
+
+        jk = self._jks[index.row()]
+        if index.column() == self._JK_NAME:
+            jk.name = str(value)
+        elif index.column() == self._JK_SIZE_CODE:
+            jk.size.size_code = str(value)
+        elif index.column() == self._JK_LENGTH:
+            jk.size.length = int(value)
+        else:
+            jk.count = int(value)
+
+        self._edit_jk(jk)
+        self.dataChanged.emit(index, index)
+        return True
+
     def create_new_jk(self):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
 
@@ -78,4 +105,14 @@ class JKModel(QAbstractTableModel):
         self._jks.append(jk)
 
         self.endInsertRows()
-        pass
+
+    def _edit_jk(self, jk: JK):
+        # 如果设定了新的尺码，首先检查是否是权限全新尺码
+        sizes = self._db.find_jk_size(jk.size.size_code, jk.size.length)
+        if len(sizes) == 0:
+            # 首先添加新尺码
+            new_size = self._db.add_new_jk_size(JKSize(jk.size.size_code, jk.size.length))
+            jk.size = new_size
+
+        # 然后更新裙子信息
+        self._db.update_jk(jk)

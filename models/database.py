@@ -97,6 +97,12 @@ class Database(object):
 
         return result
 
+    def update_jk(self, jk: JK):
+        cur = self._conn.cursor()
+        sql = 'UPDATE jk SET name = ?, size = ?, total = ? WHERE id = ?'
+        cur.execute(sql, (jk.name, jk.size.id, jk.count, jk.id))
+        self._conn.commit()
+
 
 if __name__ == '__main__':
     db = Database(':memory:')
