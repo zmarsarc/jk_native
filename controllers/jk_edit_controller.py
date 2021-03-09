@@ -2,7 +2,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 
 
-class JKSizeEditController(QItemDelegate):
+class JKSizeEditController(QStyledItemDelegate):
 
     def __init__(self, parent=None):
         super(JKSizeEditController, self).__init__(parent)
