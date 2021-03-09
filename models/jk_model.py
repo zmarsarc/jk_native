@@ -7,15 +7,15 @@ import time
 
 class JKModel(QAbstractTableModel):
 
-    _JK_NAME = 0
-    _JK_SIZE_CODE = 1
-    _JK_LENGTH = 2
-    _JK_COUNT = 3
+    JK_NAME = 0
+    JK_SIZE_CODE = 1
+    JK_LENGTH = 2
+    JK_COUNT = 3
     _column_header = {
-        _JK_NAME: '名字',
-        _JK_SIZE_CODE: '尺码',
-        _JK_LENGTH: '裙长',
-        _JK_COUNT: '库存'
+        JK_NAME: '名字',
+        JK_SIZE_CODE: '尺码',
+        JK_LENGTH: '裙长',
+        JK_COUNT: '库存'
     }
 
     def __init__(self, db: Database, parent=None):
@@ -40,13 +40,13 @@ class JKModel(QAbstractTableModel):
             return None
         if role == Qt.DisplayRole:
             # 第一列是名称，最后一列是库存，中间两列的数据通过jk_size查
-            if index.column() == self._JK_NAME:
+            if index.column() == self.JK_NAME:
                 return self._jks[index.row()].name
-            if index.column() == self._JK_SIZE_CODE:
+            if index.column() == self.JK_SIZE_CODE:
                 return self._jks[index.row()].size.size_code
-            if index.column() == self._JK_LENGTH:
+            if index.column() == self.JK_LENGTH:
                 return self._jks[index.row()].size.length
-            if index.column() == self._JK_COUNT:
+            if index.column() == self.JK_COUNT:
                 return self._jks[index.row()].count
         return None
 
@@ -80,11 +80,11 @@ class JKModel(QAbstractTableModel):
             return False
 
         jk = self._jks[index.row()]
-        if index.column() == self._JK_NAME:
+        if index.column() == self.JK_NAME:
             jk.name = str(value)
-        elif index.column() == self._JK_SIZE_CODE:
+        elif index.column() == self.JK_SIZE_CODE:
             jk.size.size_code = str(value)
-        elif index.column() == self._JK_LENGTH:
+        elif index.column() == self.JK_LENGTH:
             jk.size.length = int(value)
         else:
             jk.count = int(value)

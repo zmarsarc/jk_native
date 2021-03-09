@@ -13,7 +13,7 @@ if __name__ == '__main__':
     model = JKModel(db)
     view = QtWidgets.QTableView()
     view.setModel(model)
-    view.setItemDelegateForColumn(1, JKSizeEditController())
+    view.setItemDelegate(JKSizeEditController())
 
     button = QtWidgets.QPushButton('add new')
     button.clicked.connect(model.create_new_jk)
