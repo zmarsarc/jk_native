@@ -1,3 +1,4 @@
+from typing import List, Union
 from PySide6.QtCore import *
 
 from models.database import Database
@@ -21,7 +22,7 @@ class JKModel(QAbstractTableModel):
     def __init__(self, db: Database, parent=None):
         super(JKModel, self).__init__(parent)
         self._db = db
-        self._jks = None
+        self._jks: Union[List[JK], None] = None
 
     def rowCount(self, parent=...) -> int:
         if self._jks is None:
@@ -64,10 +65,14 @@ class JKModel(QAbstractTableModel):
                 return None
             return self._jks[section].id
 
-    def insertRows(self, row: int, count: int, parent: QModelIndex = ...) -> bool:
-        return True
+    def removeRows(self, row, count, parent=None, *args, **kwargs):
+        self.beginRemoveRows(QModelIndex(), row, row+count-1)
 
-    def removeRow(self, row: int, parent: QModelIndex = ...) -> bool:
+        wait_for_remove = self._jks[row:row+count]
+        del self._jks[row:row+count]
+        self._db.remove_jks(wait_for_remove)
+
+        self.endRemoveRows()
         return True
 
     def flags(self, index: QModelIndex):

@@ -105,6 +105,20 @@ class Database(object):
         cur.execute(sql, (jk.name, jk.size.id, jk.count, jk.id))
         self._conn.commit()
 
+    def remove_jk(self, jk: JK):
+        if jk.id == -1:
+            return
+        cur = self._conn.cursor()
+        sql = 'DELETE FROM jk WHERE id = ?'
+        cur.execute(sql, (jk.id,))
+        self._conn.commit()
+
+    def remove_jks(self, jks: List[JK]):
+        cur = self._conn.cursor()
+        sql = 'DELETE FROM jk WHERE id IN ({0})'.format(' ?' * len(jks))
+        cur.execute(sql, [x.id for x in jks])
+        self._conn.commit()
+
 
 if __name__ == '__main__':
     db = Database(':memory:')

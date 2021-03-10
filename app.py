@@ -3,7 +3,7 @@ from PySide6 import QtWidgets
 from models.database import Database
 from models.jk_model import JKModel
 from controllers.jk_edit_controller import JKEditController
-
+from views.jk_tableview import JKTableView
 
 if __name__ == '__main__':
     db = Database('storage.db')
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication([])
 
     model = JKModel(db)
-    view = QtWidgets.QTableView()
+    view = JKTableView()
     view.setModel(model)
     view.setItemDelegate(JKEditController())
 
