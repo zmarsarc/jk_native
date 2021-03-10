@@ -1,3 +1,4 @@
+from typing import List
 import sqlite3
 from models.jk import JK, JKSize
 
@@ -37,13 +38,14 @@ class Database(object):
             return rows[0]
 
         cur = self._conn.cursor()
-        _id = cur.execute('INSERT INTO jk_size(size, length) VALUES (?, ?);', (size.size_code, size.length)).lastrowid
+        _id = cur.execute('INSERT INTO jk_size(size, length) VALUES (?, ?);',
+                          (size.size_code.lower(), size.length)).lastrowid
         return JKSize(size.size_code, size.length, _id)
 
     no_matter_how_long = -1
     no_matter_what_size = ''
 
-    def find_jk_size(self, size_code=no_matter_what_size, length=no_matter_how_long) -> list:
+    def find_jk_size(self, size_code=no_matter_what_size, length=no_matter_how_long) -> List[JKSize]:
         cur = self._conn.cursor()
         sql = 'SELECT id, size, length FROM jk_size'
         cond = ' WHERE 1=1'

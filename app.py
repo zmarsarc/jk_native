@@ -2,7 +2,7 @@ import sys
 from PySide6 import QtWidgets
 from models.database import Database
 from models.jk_model import JKModel
-from controllers.jk_edit_controller import JKSizeEditController
+from controllers.jk_edit_controller import JKEditController
 
 
 if __name__ == '__main__':
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     model = JKModel(db)
     view = QtWidgets.QTableView()
     view.setModel(model)
-    view.setItemDelegate(JKSizeEditController())
+    view.setItemDelegate(JKEditController())
 
     button = QtWidgets.QPushButton('add new')
     button.clicked.connect(model.create_new_jk)

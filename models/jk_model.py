@@ -48,6 +48,10 @@ class JKModel(QAbstractTableModel):
                 return self._jks[index.row()].size.length
             if index.column() == self.JK_COUNT:
                 return self._jks[index.row()].count
+
+        if role == Qt.EditRole:
+            return self._jks[index.row()]
+
         return None
 
     def headerData(self, section: int, orientation: Qt.Orientation, role: int = ...) -> any:
@@ -116,3 +120,11 @@ class JKModel(QAbstractTableModel):
 
         # 然后更新裙子信息
         self._db.update_jk(jk)
+
+    @property
+    def names(self):
+        return [x.name for x in self._db.find_jk()]
+
+    @property
+    def sizes(self):
+        return self._db.find_jk_size()

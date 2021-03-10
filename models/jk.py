@@ -4,13 +4,13 @@ class JKSize(object):
     _min_dress_length = 20  # 最小裙长，单位厘米
 
     def __init__(self, size_code: str, length: int, _id=-1):
-        self.size_code = size_code
+        self.size_code: str = size_code
         self.length = length
         self._id = _id
 
     @property
-    def size_code(self):
-        return self._size_code
+    def size_code(self) -> str:
+        return self._size_code.upper()
 
     @size_code.setter
     def size_code(self, code):
