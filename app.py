@@ -1,28 +1,46 @@
 import sys
-from PySide6 import QtWidgets
+from PySide6.QtWidgets import *
 from models.database import Database
 from models.jk_model import JKModel
 from controllers.jk_edit_controller import JKEditController
 from views.jk_tableview import JKTableView
 
+class DressShop(QMainWindow):
+
+    def __init__(self, data: Database, parent=None):
+        super(DressShop, self).__init__(parent)
+
+        self._model = JKModel(data)
+
+        self._create_menubar()
+        self._create_statusbar()
+        self._create_central_widget()
+
+        self.setMinimumSize(800, 600)
+
+    def _create_menubar(self):
+        menubar = QMenuBar(self)
+
+        application = menubar.addMenu('application')
+        application.addAction('quit', self.close)
+
+        self.setMenuBar(menubar)
+
+    def _create_statusbar(self):
+        statusbar = QStatusBar(self)
+        self.setStatusBar(statusbar)
+
+    def _create_central_widget(self):
+        view = JKTableView(self)
+        view.setItemDelegate(JKEditController())
+        view.setModel(self._model)
+        self.setCentralWidget(view)
+
+
 if __name__ == '__main__':
-    db = Database('storage.db')
+    data = Database('storage.db')
 
-    app = QtWidgets.QApplication([])
-
-    model = JKModel(db)
-    view = JKTableView()
-    view.setModel(model)
-    view.setItemDelegate(JKEditController())
-
-    button = QtWidgets.QPushButton('add new')
-    button.clicked.connect(model.create_new_jk)
-
-    splitter = QtWidgets.QSplitter()
-    splitter.addWidget(view)
-    splitter.addWidget(button)
-
-    splitter.setMinimumSize(800, 600)
-    splitter.show()
-
+    app = QApplication(sys.argv)
+    shop = DressShop(data)
+    shop.show()
     sys.exit(app.exec_())
