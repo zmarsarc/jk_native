@@ -23,8 +23,11 @@ class DressShop(QMainWindow):
     def _create_menubar(self):
         menubar = QMenuBar(self)
 
-        application = menubar.addMenu('application')
-        application.addAction('quit', self.close)
+        application = menubar.addMenu(self.tr('Application'))
+        application.addAction(self.tr('Quit'), self.close)
+
+        store = menubar.addMenu(self.tr('Store'))
+        store.addAction(self.tr('New Dress'), self._model.create_new_jk)
 
         self.setMenuBar(menubar)
 
@@ -44,7 +47,11 @@ class DressShop(QMainWindow):
         button_container = QWidget(toolbar)
         root = QHBoxLayout(button_container)
         button_container.setLayout(root)
-        root.addWidget(QPushButton('new'))
+        
+        new_button = QPushButton('new dress', button_container)
+        new_button.clicked.connect(self._model.create_new_jk)
+        root.addWidget(new_button)
+
         root.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum))
 
         toolbar.setWidget(button_container)
