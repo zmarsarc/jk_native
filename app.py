@@ -49,6 +49,7 @@ class DressShop(QMainWindow):
         button_container.setLayout(root)
         
         new_button = QPushButton('new dress', button_container)
+        new_button.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         new_button.clicked.connect(self._model.create_new_jk)
         root.addWidget(new_button)
 
