@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>icons/baseline_home_black_36dp.png</file>
+    <file>icons/baseline_redo_black_36dp.png</file>
+    <file>icons/baseline_undo_black_36dp.png</file>
+</qresource>
+</RCC>
