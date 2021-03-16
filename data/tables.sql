@@ -3,7 +3,7 @@ create table if not exists goods (
     id integer primary key autoincrement,
     name varchar(64) not null,
     goods_type tinyint not null,
-    create_time datetime not null,
+    create_time datetime not null default(datetime('now', 'localtime')),
     comment text
 );
 create unique index if not exists goods_name_type
