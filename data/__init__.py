@@ -1,1 +1,1 @@
-from .goods import Goods
+from .goods import Goods, GoodsType

@@ -18,3 +18,8 @@ class SQLiteDriver(object):
             (goods.name, goods.goods_type))
         self._conn.commit()
         return cur.lastrowid
+
+    def all_goods(self):
+        cur = self._conn.cursor()
+        cur.execute('select id, name, goods_type, create_time, comment from goods')
+        return cur.fetchall()
