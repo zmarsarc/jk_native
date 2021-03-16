@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QDialog
+from PySide6.QtGui import QIntValidator
 from gui.add_new_goods_dialog import Ui_AddNewGoodsDialog
 
 class AddNewGoodsDialog(QDialog):
@@ -7,3 +8,5 @@ class AddNewGoodsDialog(QDialog):
         super(AddNewGoodsDialog, self).__init__(parent)
         self.ui = Ui_AddNewGoodsDialog()
         self.ui.setupUi(self)
+
+        self.ui.ipt_cost.setValidator(QIntValidator(0, 1000000, self.ui.ipt_cost))

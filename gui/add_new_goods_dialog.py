@@ -32,10 +32,10 @@ class Ui_AddNewGoodsDialog(object):
 
         self.horizontalLayout.addWidget(self.label)
 
-        self.lineEdit = QLineEdit(AddNewGoodsDialog)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.ipt_goods_name = QLineEdit(AddNewGoodsDialog)
+        self.ipt_goods_name.setObjectName(u"ipt_goods_name")
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.ipt_goods_name)
 
 
         self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
@@ -47,10 +47,10 @@ class Ui_AddNewGoodsDialog(object):
 
         self.horizontalLayout_2.addWidget(self.label_2)
 
-        self.comboBox = QComboBox(AddNewGoodsDialog)
-        self.comboBox.setObjectName(u"comboBox")
+        self.sel_goods_type = QComboBox(AddNewGoodsDialog)
+        self.sel_goods_type.setObjectName(u"sel_goods_type")
 
-        self.horizontalLayout_2.addWidget(self.comboBox)
+        self.horizontalLayout_2.addWidget(self.sel_goods_type)
 
 
         self.gridLayout.addLayout(self.horizontalLayout_2, 0, 1, 1, 1)
@@ -62,10 +62,10 @@ class Ui_AddNewGoodsDialog(object):
 
         self.horizontalLayout_3.addWidget(self.label_3)
 
-        self.lineEdit_2 = QLineEdit(AddNewGoodsDialog)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.ipt_cost = QLineEdit(AddNewGoodsDialog)
+        self.ipt_cost.setObjectName(u"ipt_cost")
 
-        self.horizontalLayout_3.addWidget(self.lineEdit_2)
+        self.horizontalLayout_3.addWidget(self.ipt_cost)
 
 
         self.gridLayout.addLayout(self.horizontalLayout_3, 1, 0, 1, 1)
@@ -80,10 +80,10 @@ class Ui_AddNewGoodsDialog(object):
 
         self.verticalLayout.addWidget(self.label_4)
 
-        self.plainTextEdit = QPlainTextEdit(AddNewGoodsDialog)
-        self.plainTextEdit.setObjectName(u"plainTextEdit")
+        self.txt_comment = QPlainTextEdit(AddNewGoodsDialog)
+        self.txt_comment.setObjectName(u"txt_comment")
 
-        self.verticalLayout.addWidget(self.plainTextEdit)
+        self.verticalLayout.addWidget(self.txt_comment)
 
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
