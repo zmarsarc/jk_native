@@ -8,5 +8,3 @@ class AddNewGoodsDialog(QDialog):
         super(AddNewGoodsDialog, self).__init__(parent)
         self.ui = Ui_AddNewGoodsDialog()
         self.ui.setupUi(self)
-
-        self.ui.ipt_cost.setValidator(QIntValidator(0, 1000000, self.ui.ipt_cost))
