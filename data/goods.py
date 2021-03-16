@@ -19,5 +19,5 @@ class Goods(object):
 
     def _save_goods_data(self):
         def func(gd):
-            self._driver.insert_goods(gd)
+            gd._id = self._driver.insert_goods(gd)
         return func

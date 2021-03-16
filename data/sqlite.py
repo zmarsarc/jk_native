@@ -17,3 +17,4 @@ class SQLiteDriver(object):
             cur.execute('insert into goods (name, goods_type) values (?, ?)',
             (goods.name, goods.goods_type))
         self._conn.commit()
+        return cur.lastrowid
