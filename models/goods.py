@@ -34,6 +34,8 @@ class Goods(QAbstractTableModel):
                 return g.create_time
             else:
                 return g.comment if g.comment is not None else ''
+        if role == Qt.EditRole:
+            return self._goods[index.row()]
     
     def headerData(self, section, orientation, role=...):
         if orientation == Qt.Vertical:
