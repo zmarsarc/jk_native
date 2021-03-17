@@ -12,6 +12,8 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
+from .goods_view import GoodsView
+
 import resource_rc
 
 class Ui_DressShopWindow(object):
@@ -77,7 +79,7 @@ class Ui_DressShopWindow(object):
         self.gridLayout_4.setSpacing(0)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.goods_view = QTableView(self.dockWidgetContents_4)
+        self.goods_view = GoodsView(self.dockWidgetContents_4)
         self.goods_view.setObjectName(u"goods_view")
 
         self.gridLayout_4.addWidget(self.goods_view, 0, 0, 1, 1)
