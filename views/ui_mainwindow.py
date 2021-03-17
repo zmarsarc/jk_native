@@ -88,10 +88,10 @@ class Ui_DressShopWindow(object):
 
         self.horizontalLayout.addWidget(self.dockWidget_4)
 
-        self.dockWidget_2 = QDockWidget(self.store_main_view)
-        self.dockWidget_2.setObjectName(u"dockWidget_2")
-        self.dockWidget_2.setFeatures(QDockWidget.DockWidgetMovable)
-        self.dockWidget_2.setAllowedAreas(Qt.LeftDockWidgetArea|Qt.RightDockWidgetArea)
+        self.dock_goods_detail = QDockWidget(self.store_main_view)
+        self.dock_goods_detail.setObjectName(u"dock_goods_detail")
+        self.dock_goods_detail.setFeatures(QDockWidget.DockWidgetMovable)
+        self.dock_goods_detail.setAllowedAreas(Qt.LeftDockWidgetArea|Qt.RightDockWidgetArea)
         self.dockWidgetContents_2 = QWidget()
         self.dockWidgetContents_2.setObjectName(u"dockWidgetContents_2")
         self.gridLayout_5 = QGridLayout(self.dockWidgetContents_2)
@@ -103,9 +103,9 @@ class Ui_DressShopWindow(object):
 
         self.gridLayout_5.addWidget(self.inventory_view, 0, 0, 1, 1)
 
-        self.dockWidget_2.setWidget(self.dockWidgetContents_2)
+        self.dock_goods_detail.setWidget(self.dockWidgetContents_2)
 
-        self.horizontalLayout.addWidget(self.dockWidget_2)
+        self.horizontalLayout.addWidget(self.dock_goods_detail)
 
 
         self.verticalLayout.addWidget(self.store_main_view)
@@ -161,7 +161,7 @@ class Ui_DressShopWindow(object):
         self.btn_add_new_goods.setText(QCoreApplication.translate("DressShopWindow", u"\u65b0\u589e\n"
 "\u5546\u54c1", None))
         self.dockWidget_4.setWindowTitle(QCoreApplication.translate("DressShopWindow", u"\u603b\u89c8", None))
-        self.dockWidget_2.setWindowTitle(QCoreApplication.translate("DressShopWindow", u"\u8be6\u60c5", None))
+        self.dock_goods_detail.setWindowTitle(QCoreApplication.translate("DressShopWindow", u"\u8be6\u60c5", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.store_tab), QCoreApplication.translate("DressShopWindow", u"\u5e93\u5b58", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.orders_tab), QCoreApplication.translate("DressShopWindow", u"\u8ba2\u5355", None))
         self.application_menu.setTitle(QCoreApplication.translate("DressShopWindow", u"application", None))

@@ -186,7 +186,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QDockWidget" name="dockWidget_2">
+              <widget class="QDockWidget" name="dock_goods_detail">
                <property name="features">
                 <set>QDockWidget::DockWidgetMovable</set>
                </property>
