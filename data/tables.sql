@@ -61,9 +61,9 @@ create table if not exists jk_inventory (
     id integer primary key autoincrement,
     goods_id integer not null,
     serial_number text not null,
-    size_code varchar(10) not null,
+    size_code tinyint not null,
     length smallint not null,
-    total integer not null,
+    total integer not null default(0),
     foreign key (goods_id) references goods(id)
 );
 create unique index if not exists jk_serial_number

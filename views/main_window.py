@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QDialog
+from PySide6.QtCore import Slot
 from .ui_mainwindow import Ui_DressShopWindow
 from .add_new_goods import AddNewGoodsDialog
 from models import Goods
@@ -15,7 +16,9 @@ class DressShopMainWindow(QMainWindow):
 
         self._goods_model = Goods(goodsdata, self)
         self.ui.goods_view.setModel(self._goods_model)
+        self.ui.goods_view.selectedGoodsChanged.connect(self.selected_goods_changed)
 
+    @Slot()
     def add_new_goods(self):
         """添加新商品"""
 
@@ -28,3 +31,7 @@ class DressShopMainWindow(QMainWindow):
                 'goods_type': data[1],
                 'comment': data[2] if data[2] != '' else None
             })
+
+    @Slot(object)
+    def selected_goods_changed(self, goods):
+        self.ui.dock_goods_detail.setWindowTitle(f'{goods.goods_type.name}-{goods.name}的库存')
