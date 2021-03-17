@@ -1,4 +1,4 @@
-from datetime import datetime
+from .jk_inventory import JK
 
 class GoodsType(object):
 
@@ -17,20 +17,26 @@ class GoodsType(object):
 
 class Goods(object):
     
+    _GOODS_TYPE_JK = 1           # JK
+    _GOODS_TYPE_ACCESSOIRES = 2  # 小物
+
     TYPES = [
-        GoodsType(1, 'JK'),
-        GoodsType(2, '小物')
+        GoodsType(_GOODS_TYPE_JK, 'JK'),
+        GoodsType(_GOODS_TYPE_ACCESSOIRES, '小物')
     ]
 
     def __init__(self, driver):
         self._driver = driver
+        self._jk_inventory = JK(driver)
+
         _goods_data_attrs = {
             '_id': None,
             'name': None,
             'goods_type': None,
             'create_time': None,
             'comment': None,
-            'save': self._save_goods_data()
+            'save': self._save_goods_data(),
+            'new_inventory': self._new_inventory()
         }
         self._goods_maker = type('GoodsData', (object,), _goods_data_attrs)
 
@@ -59,4 +65,12 @@ class Goods(object):
             g.comment = gd.comment
             
             gd._id = self._driver.insert_goods(g)
+        return func
+
+    def _new_inventory(self):
+        def func(goods):
+            if goods.goods_type.index == self._GOODS_TYPE_JK:
+                jk = self._jk_inventory.new()
+                jk.goods_id = goods._id
+                return jk
         return func
