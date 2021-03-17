@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QMainWindow, QDialog
-from gui.mainwindow import Ui_DressShopWindow
+from .ui_mainwindow import Ui_DressShopWindow
 from .add_new_goods import AddNewGoodsDialog
 from models import Goods
+
 
 class DressShopMainWindow(QMainWindow):
 
@@ -16,6 +17,8 @@ class DressShopMainWindow(QMainWindow):
         self.ui.goods_view.setModel(self._goods_model)
 
     def add_new_goods(self):
+        """添加新商品"""
+
         dialog = AddNewGoodsDialog(self._goods_model.types(), self)
         result = dialog.exec_()
         if result == QDialog.Accepted:

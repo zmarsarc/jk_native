@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QDialog
 from PySide6.QtCore import QStringListModel
-from gui.add_new_goods_dialog import Ui_AddNewGoodsDialog
+from .ui_add_new_goods_dialog import Ui_AddNewGoodsDialog
 
 class AddNewGoodsDialog(QDialog):
 
