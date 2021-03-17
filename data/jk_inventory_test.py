@@ -7,6 +7,13 @@ class _FakeDriver(object):
     def __init__(self):
         self.insert_jk = MagicMock(return_value=3)
 
+        all_jk = (
+            (1, 1, '1111', 1, 43, 100),
+            (2, 1, '1112', 1, 47, 59),
+            (3, 2, '1121', 2, 39, 100)
+        )
+        self.all_jk = MagicMock(return_value=all_jk)
+
 
 class TestJK(unittest.TestCase):
 
@@ -40,3 +47,12 @@ class TestJK(unittest.TestCase):
         self.assertTrue(hasattr(arg, 'size_code') and isinstance(arg.size_code, int))
         self.assertTrue(hasattr(arg, 'length') and isinstance(arg.length, int))
         self.assertTrue(hasattr(arg, 'total') and isinstance(arg.total, int))
+
+    def test_all(self):
+        fake = _FakeDriver()
+        jk_data = JK(fake)
+
+        jks = jk_data.all()
+        self.assertEqual(jks[0]._id, 1)
+        self.assertEqual(jks[1].size.name, 'XS')
+        self.assertEqual(jks[2].count, 100)

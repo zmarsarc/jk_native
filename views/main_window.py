@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QMainWindow, QDialog
 from PySide6.QtCore import Slot
 from .ui_mainwindow import Ui_DressShopWindow
 from .add_new_goods import AddNewGoodsDialog
-from models import Goods
+from models import Goods, JKInventory
 
 
 class DressShopMainWindow(QMainWindow):
@@ -35,3 +35,5 @@ class DressShopMainWindow(QMainWindow):
     @Slot(object)
     def selected_goods_changed(self, goods):
         self.ui.dock_goods_detail.setWindowTitle(f'{goods.goods_type.name}-{goods.name}的库存')
+        jk = JKInventory(goods)
+        self.ui.inventory_view.setModel(jk)

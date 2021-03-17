@@ -36,7 +36,8 @@ class Goods(object):
             'create_time': None,
             'comment': None,
             'save': self._save_goods_data(),
-            'new_inventory': self._new_inventory()
+            'new_inventory': self._new_inventory(),
+            'inventory': self._inventory()
         }
         self._goods_maker = type('GoodsData', (object,), _goods_data_attrs)
 
@@ -73,4 +74,12 @@ class Goods(object):
                 jk = self._jk_inventory.new()
                 jk.goods_id = goods._id
                 return jk
+        return func
+
+    def _inventory(self):
+        def func(goods):
+            if goods.goods_type.index == self._GOODS_TYPE_JK:
+                return self._jk_inventory.all()
+            elif goods.goods_type.index == self._GOODS_TYPE_ACCESSOIRES:
+                raise NotImplementedError('小物库存还没准备好')
         return func

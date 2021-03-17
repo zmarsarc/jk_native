@@ -1,8 +1,9 @@
 class JKSize(object):
 
-    def __init__(self, code: int, name: str):
+    def __init__(self, code: int, name: str, order: int):
         self._code = code
         self._name = name
+        self._order = order
 
     @property
     def code(self):
@@ -12,6 +13,10 @@ class JKSize(object):
     def name(self):
         return self._name
 
+    @property
+    def order(self):
+        return self._order
+
     def __str__(self):
         return self._name
 
@@ -19,12 +24,12 @@ class JKSize(object):
 class JK(object):
 
     Sizes = [
-        JKSize(1, 'XS'),
-        JKSize(2, 'S'),
-        JKSize(3, 'M'),
-        JKSize(4, 'L'),
-        JKSize(5, 'XL'),
-        JKSize(6, 'XXL')
+        JKSize(1, 'XS', 0),
+        JKSize(2, 'S', 1),
+        JKSize(3, 'M', 2),
+        JKSize(4, 'L', 3),
+        JKSize(5, 'XL', 4),
+        JKSize(6, 'XXL', 5)
     ]
 
     class _JKModel(object):
@@ -51,6 +56,22 @@ class JK(object):
     
     def new(self):
         return self._jk_data_maker()
+
+    def all(self):
+        data = self._driver.all_jk()
+        result = []
+        for d in data:
+            j = self._jk_data_maker()
+            j._id = d[0]
+            j.goods_id = d[1]
+            j.serial_number = d[2]
+            j.size = [x for x in self.Sizes if x.code == d[3]][0]
+            j.length = d[4]
+            j.count = d[5]
+            
+            result.append(j)
+
+        return result
 
     def _save_jk_data(self):
         def func(jk):
