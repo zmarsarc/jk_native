@@ -179,7 +179,7 @@
                   <number>0</number>
                  </property>
                  <item row="0" column="0">
-                  <widget class="QTableView" name="goods_view"/>
+                  <widget class="GoodsView" name="goods_view"/>
                  </item>
                 </layout>
                </widget>
@@ -278,6 +278,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GoodsView</class>
+   <extends>QTableView</extends>
+   <header>.goods_view</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../res/resource.qrc"/>
  </resources>
