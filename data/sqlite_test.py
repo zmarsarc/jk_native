@@ -66,3 +66,13 @@ class TestSQLiteDriver(unittest.TestCase):
         self.assertEqual(jks.size_code, 1)  # check size code
         self.assertEqual(jks.length, 2)  # check length
         self.assertEqual(jks.total, 3)  # check total
+
+    def test_read_goods_should_return_datetime_ctime(self):
+        driver = SQLiteDriver(":memory:")
+        goods = GoodsModel()
+        goods.name = ''
+        goods.type = 1
+        goods_id = driver.add_goods(goods)
+
+        g = driver.all_goods()[0]
+        self.assertIsInstance(g.create_time, datetime)

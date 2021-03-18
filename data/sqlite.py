@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 from .abc import *
 
 class SQLiteDriver(GoodsDataDriver, JKInventoryDataDriver):
@@ -42,7 +43,7 @@ class SQLiteDriver(GoodsDataDriver, JKInventoryDataDriver):
         g.id = d[ID]
         g.name = d[NAME]
         g.type = d[TYPE_CODE]
-        g.create_time = d[CTIME]
+        g.create_time = datetime.fromisoformat(d[CTIME])
         g.comment = d[COMMENT]
 
         return g
