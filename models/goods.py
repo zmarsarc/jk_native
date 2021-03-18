@@ -6,40 +6,40 @@ import data
 
 class GoodsType:
 
-    """
-    商品类型类
+    class _Type:
+        """
+        商品类型类
 
-    两个字段，是商品类型的两种表示。
+        两个字段，是商品类型的两种表示。
 
-    code是数据表示，每种商品类型都有不重复的类型码，name是人类可读的表示，例如 JK Lo 小物等等。
-    """
+        code是数据表示，每种商品类型都有不重复的类型码，name是人类可读的表示，例如 JK Lo 小物等等。
+        """
 
-    def __init__(self, code: int, name: str):
-        self._type_code: int = code
-        self._type_name: str = name
+        def __init__(self, code: int, name: str):
+            self._type_code: int = code
+            self._type_name: str = name
 
-    @property
-    def code(self):
-        return self._type_code
+        @property
+        def code(self):
+            return self._type_code
 
-    @property
-    def name(self):
-        return self._type_name
+        @property
+        def name(self):
+            return self._type_name
 
+    # 下面定义商品类型
+    JK = _Type(1, u'JK')
+    Accessories = _Type(2, u'小物')
 
-# 下面定义商品类型
-GoodsTypeJK: GoodsType = GoodsType(1, u'JK')
-GoodsTypeAccessoires: GoodsType = GoodsType(2, u'小物')
-
-# 定义两个辅助索引用于查询类型
-NameToGoodsType: Dict[str, GoodsType] = {
-    GoodsTypeJK.name: GoodsTypeJK,
-    GoodsTypeAccessoires.name: GoodsTypeAccessoires
-}
-CodeToGoodsType: Dict[int, GoodsType] = {
-    GoodsTypeJK.code: GoodsTypeJK,
-    GoodsTypeAccessoires.code: GoodsTypeAccessoires
-}
+    # 两个辅助查询的字典
+    NameToType: Dict[str, _Type] = {
+        JK.name: JK,
+        Accessories.name: Accessories
+    }
+    CodeToType: Dict[int, _Type] = {
+        JK.code: JK,
+        Accessories.code: Accessories
+    }
 
 
 class DataDriver(data.GoodsDataDriver, data.JKInventoryDataDriver):
@@ -66,8 +66,8 @@ class GoodsItem:
         self._data.name = n
 
     @property
-    def type(self) -> GoodsType:
-        return CodeToGoodsType[self._data.type]
+    def type(self) -> GoodsType._Type:
+        return GoodsType.CodeToType[self._data.type]
     
     @type.setter
     def type(self, t: GoodsType):
@@ -128,9 +128,9 @@ class Goods(QAbstractTableModel):
     def _load(self) -> List[GoodsItem]:
         goods: List[GoodsItem] = []
         for g in self._data.all_goods():
-            if g.type == GoodsTypeJK.code:
+            if g.type == GoodsType.JK.code:
                 goods.append(JKItem(self._data, g))
-            if g.type == GoodsTypeAccessoires.code:
+            if g.type == GoodsType.Accessories.code:
                 goods.append(AccessoiresItem(g))
         return goods
         
