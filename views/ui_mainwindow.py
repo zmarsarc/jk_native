@@ -48,6 +48,10 @@ class Ui_DressShopWindow(object):
         self.gridLayout_3.setHorizontalSpacing(4)
         self.gridLayout_3.setVerticalSpacing(0)
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.gridLayout_3.addItem(self.horizontalSpacer, 0, 2, 1, 1)
+
         self.btn_add_new_goods = QPushButton(self.store_tool_bar)
         self.btn_add_new_goods.setObjectName(u"btn_add_new_goods")
         self.btn_add_new_goods.setMinimumSize(QSize(64, 64))
@@ -56,9 +60,12 @@ class Ui_DressShopWindow(object):
 
         self.gridLayout_3.addWidget(self.btn_add_new_goods, 0, 0, 1, 1)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.btn_new_stock = QPushButton(self.store_tool_bar)
+        self.btn_new_stock.setObjectName(u"btn_new_stock")
+        self.btn_new_stock.setMinimumSize(QSize(64, 64))
+        self.btn_new_stock.setMaximumSize(QSize(64, 64))
 
-        self.gridLayout_3.addItem(self.horizontalSpacer, 0, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.btn_new_stock, 0, 1, 1, 1)
 
 
         self.verticalLayout.addWidget(self.store_tool_bar)
@@ -160,6 +167,8 @@ class Ui_DressShopWindow(object):
         DressShopWindow.setWindowTitle(QCoreApplication.translate("DressShopWindow", u"MainWindow", None))
         self.btn_add_new_goods.setText(QCoreApplication.translate("DressShopWindow", u"\u65b0\u589e\n"
 "\u5546\u54c1", None))
+        self.btn_new_stock.setText(QCoreApplication.translate("DressShopWindow", u"\u6dfb\u52a0\n"
+"\u5e93\u5b58", None))
         self.dockWidget_4.setWindowTitle(QCoreApplication.translate("DressShopWindow", u"\u603b\u89c8", None))
         self.dock_goods_detail.setWindowTitle(QCoreApplication.translate("DressShopWindow", u"\u8be6\u60c5", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.store_tab), QCoreApplication.translate("DressShopWindow", u"\u5e93\u5b58", None))
