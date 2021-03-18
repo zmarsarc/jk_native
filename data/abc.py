@@ -3,7 +3,7 @@ from datetime import datetime
 from abc import ABC, abstractmethod
 
 
-class GoodsModel(object):
+class GoodsModel:
 
     """商品信息模型"""
 
@@ -28,7 +28,7 @@ class GoodsDataDriver(ABC):
         pass
 
 
-class JKInventoryModel(object):
+class JKInventoryModel:
 
     """JK库存模型"""
 
