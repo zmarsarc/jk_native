@@ -45,6 +45,7 @@ class GoodsType:
 class DataDriver(data.GoodsDataDriver, data.JKInventoryDataDriver):
     pass
 
+
 class GoodsItem:
     
     def __init__(self, model: data.GoodsModel = None):
@@ -150,9 +151,9 @@ class Goods(QAbstractTableModel):
             if index.column() == 0:
                 return g.name
             elif index.column() == 1:
-                return g.goods_type.name
+                return g.type.name
             elif index.column() == 2:
-                return g.create_time
+                return str(g.create_time)
             else:
                 return g.comment if g.comment is not None else ''
         if role == Qt.EditRole:
