@@ -2,6 +2,8 @@ from typing import List
 from data import JKInventoryDataDriver, JKInventoryModel
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from . import goods
+import random
+import string
 
 class JKSize:
 
@@ -54,11 +56,19 @@ class JKSize:
 
 class Record:
     
+    SerialNumberLen = 16
+
     def __init__(self, driver: JKInventoryDataDriver, model: JKInventoryModel = None):
         self._driver = driver
         self._data = model
         if self._data is None:
             self._data = JKInventoryModel()
+        if not self._data.is_valid_serial_number():
+            self._data.serial_number = self._gen_sn()
+
+    def _gen_sn(self):
+        return ''.join(random.SystemRandom().choices(
+            string.ascii_uppercase + string.digits, k=self.SerialNumberLen))
 
     @property
     def id(self):
@@ -68,6 +78,10 @@ class Record:
     def goods_id(self):
         return self._data.goods_id
 
+    @goods_id.setter
+    def goods_id(self, gid: int):
+        self._data.goods_id = gid
+
     @property
     def serial_number(self):
         return self._data.serial_number
@@ -76,13 +90,28 @@ class Record:
     def size(self):
         return JKSize.CodeToSize[self._data.size_code]
 
+    @size.setter
+    def size(self, s: JKSize.Size):
+        self._data.size_code = s.code
+
     @property
     def length(self):
         return self._data.length
 
+    @length.setter
+    def length(self, l: int):
+        self._data.length = l
+
     @property
     def total(self):
         return self._data.total
+
+    @total.setter
+    def total(self, num: int):
+        self._data.total = num
+
+    def save(self):
+        self._data.id = self._driver.add_jk_inventory(self._data)
 
 
 class JK(QAbstractTableModel):
@@ -141,6 +170,9 @@ class JK(QAbstractTableModel):
         
         return (h_header, v_header, table)
 
+    def new(self):
+        return Record(self._driver)
+
 
 class JKForGoods(JK):
 
@@ -150,3 +182,8 @@ class JKForGoods(JK):
 
     def _load(self):
         return [Record(self._driver, x) for x in self._driver.jk_inventory_by_goods_id(self._goods_record.id)]
+
+    def new(self):
+        j = super(JKForGoods, self).new()
+        j.goods_id = self._goods_record.id
+        return j

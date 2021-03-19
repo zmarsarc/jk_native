@@ -40,6 +40,9 @@ class JKInventoryModel:
         self.length: int = 0
         self.total: int = 0
 
+    def is_valid_serial_number(self):
+        return self.serial_number != None
+
 
 class JKInventoryDataDriver(ABC):
 

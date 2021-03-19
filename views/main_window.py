@@ -12,7 +12,7 @@ class DressShopMainWindow(QMainWindow):
     def __init__(self, driver):
         super(DressShopMainWindow, self).__init__()
 
-        self._current_goods = None
+        self._current_goods: goods.Record = None
         self._data_driver = driver
 
         self.ui = Ui_DressShopWindow()
@@ -40,9 +40,12 @@ class DressShopMainWindow(QMainWindow):
             return #  todo: show usage hit
         
         #  todo: select dialog depend on different types of goods
-        dialog = AddJKStock()
-        if QDialog.Accepted == dialog.exec_():
-            pass  # todo: add inventory
+        if self._current_goods.type == goods.GoodsType.JK:
+            dialog = AddJKStock(inventory.JKSize.Sizes)
+            if QDialog.Accepted == dialog.exec_():
+                jk = inventory.JKForGoods(self._data_driver, self._current_goods).new()
+                jk.size, jk.length, jk.total = dialog.jk_data()
+                jk.save()
 
     @Slot(object)
     def selected_goods_changed(self, goods):
