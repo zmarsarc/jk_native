@@ -41,14 +41,13 @@ class GoodsType:
         Accessories.code: Accessories
     }
 
-
-class DataDriver(data.GoodsDataDriver, data.JKInventoryDataDriver):
-    pass
+    Types = [JK, Accessories]
 
 
-class GoodsItem:
+class Record:
     
-    def __init__(self, model: data.GoodsModel = None):
+    def __init__(self, driver: data.GoodsDataDriver, model: data.GoodsModel = None):
+        self._driver = driver
         if model is not None:
             self._data = model
         else:
@@ -71,9 +70,9 @@ class GoodsItem:
         return GoodsType.CodeToType[self._data.type]
     
     @type.setter
-    def type(self, t: GoodsType):
+    def type(self, t: GoodsType._Type):
         #  todo: 如果商品已经创建了，就不能再修改其类型了
-        pass
+        self._data.type = t.code
 
     @property
     def create_time(self) -> datetime:
@@ -83,57 +82,25 @@ class GoodsItem:
     def comment(self) -> Optional[str]:
         return self._data.comment
 
-    @abstractmethod
-    def save(self):
-        pass
-
-    @abstractmethod
-    def remove(self):
-        pass
-
-
-class JKItem(GoodsItem):
-
-    def __init__(self, driver: data.JKInventoryDataDriver, model: data.GoodsModel=None):
-        super(JKItem, self).__init__(model)
-        self._driver = driver
+    @comment.setter
+    def comment(self, c: Optional[str]):
+        self._data.comment = c
 
     def save(self):
-        pass
-
-    def remove(self):
-        pass
-
-
-class AccessoiresItem(GoodsItem):
-
-    def __init__(self, model: data.GoodsModel=None):
-        super(AccessoiresItem, self).__init__(model)
-
-    def save(self):
-        pass
-
-    def remove(self):
-        pass
+        self._driver.add_goods(self._data)
 
 
 class Goods(QAbstractTableModel):
 
     _header_data = ('名称', '类型', '创建时间', '备注')
 
-    def __init__(self, driver: DataDriver, parent=None):
+    def __init__(self, driver: data.GoodsDataDriver, parent=None):
         super(Goods, self).__init__(parent)
-        self._data = driver
+        self._driver = driver
         self._goods = self._load()
 
-    def _load(self) -> List[GoodsItem]:
-        goods: List[GoodsItem] = []
-        for g in self._data.all_goods():
-            if g.type == GoodsType.JK.code:
-                goods.append(JKItem(self._data, g))
-            if g.type == GoodsType.Accessories.code:
-                goods.append(AccessoiresItem(g))
-        return goods
+    def _load(self) -> List[Record]:
+        return [Record(self._driver, g) for g in self._driver.all_goods()]
         
     def rowCount(self, parent=QModelIndex()):
         return len(self._goods)
@@ -166,14 +133,15 @@ class Goods(QAbstractTableModel):
             return self._header_data[section]
         return None
 
-    def add_new_goods(self, gd):
+    def add_new_goods(self, name: str, gtype: GoodsType._Type, comment: Optional[str]=None):
         self.beginInsertRows(QModelIndex(), self.rowCount()+1, self.rowCount()+1)
-        g = self._data.new()
-        g.name = gd['name']
-        g.goods_type = gd['goods_type']
-        g.comment = gd['comment']
+
+        g = Record(self._driver)
+        g.name = name
+        g.type = gtype
+        g.comment = comment
         g.save()
 
-        self._goods = self._data.all()
+        self._goods = self._load()
 
         self.endInsertRows()

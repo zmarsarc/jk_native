@@ -1,15 +1,17 @@
+from typing import List
+from models import goods
 from PySide6.QtWidgets import QDialog
 from PySide6.QtCore import QStringListModel
 from .ui_add_new_goods_dialog import Ui_AddNewGoodsDialog
 
 class AddNewGoodsDialog(QDialog):
 
-    def __init__(self, goods_types=[], parent=None):
+    def __init__(self, goods_types: List[goods.GoodsType._Type] = [], parent=None):
         super(AddNewGoodsDialog, self).__init__(parent)
         self.ui = Ui_AddNewGoodsDialog()
         self.ui.setupUi(self)
         self._goods_types = goods_types
-        self.ui.sel_goods_type.setModel(QStringListModel([x.name for x in goods_types]))
+        self.ui.sel_goods_type.setModel(QStringListModel([x.name for x in self._goods_types]))
 
     def goods_data(self):
         return (
