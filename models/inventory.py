@@ -187,3 +187,13 @@ class JKForGoods(JK):
         j = super(JKForGoods, self).new()
         j.goods_id = self._goods_record.id
         return j
+
+    def add_inventory(self, size: JKSize.Size, length: int, total: int):
+        j = self.new()
+        j.size = size
+        j.length = length
+        j.total = total
+        j.save()
+
+        self._h_header, self._v_header, self._table = self._update_table()
+        self.layoutChanged.emit()

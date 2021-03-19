@@ -43,10 +43,9 @@ class DressShopMainWindow(QMainWindow):
         if self._current_goods.type == goods.GoodsType.JK:
             dialog = AddJKStock(inventory.JKSize.Sizes)
             if QDialog.Accepted == dialog.exec_():
-                jk = inventory.JKForGoods(self._data_driver, self._current_goods).new()
-                jk.size, jk.length, jk.total = dialog.jk_data()
-                jk.save()
-
+                size, length, total = dialog.jk_data()
+                self.ui.inventory_view.model().add_inventory(size, length, total)
+            
     @Slot(object)
     def selected_goods_changed(self, goods):
         self._current_goods = goods
