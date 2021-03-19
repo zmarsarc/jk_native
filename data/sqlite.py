@@ -64,6 +64,15 @@ class SQLiteDriver(GoodsDataDriver, JKInventoryDataDriver):
             jks.append(self._load_data_to_jk_inventory_model(d))
         return jks
 
+    def jk_inventory_by_goods_id(self, goods_id: int) -> List[JKInventoryModel]:
+        cur = self._conn.cursor()
+        cur.execute('select id, goods_id, serial_number, size_code, length, total from jk_inventory where goods_id = ?',
+            (goods_id,))
+        jks = []
+        for d in cur.fetchall():
+            jks.append(self._load_data_to_jk_inventory_model(d))
+        return jks
+
     @staticmethod
     def _load_data_to_jk_inventory_model(d):
         ID = 0

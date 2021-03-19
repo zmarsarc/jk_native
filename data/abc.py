@@ -52,3 +52,7 @@ class JKInventoryDataDriver(ABC):
     @abstractmethod
     def all_jk_inventory(self) -> List[JKInventoryModel]:
         pass
+
+    @abstractmethod
+    def jk_inventory_by_goods_id(self, goods_id: int) -> List[JKInventoryModel]:
+        pass

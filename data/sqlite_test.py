@@ -76,3 +76,34 @@ class TestSQLiteDriver(unittest.TestCase):
 
         g = driver.all_goods()[0]
         self.assertIsInstance(g.create_time, datetime)
+
+    def test_jk_inventory_by_goods_id(self):
+        driver = SQLiteDriver(":memory:")
+
+        goods = GoodsModel()
+        goods.name = ''
+        goods.type = 1
+        goods_id = driver.add_goods(goods)
+        other_goods = goods
+        goods.type = 2
+        driver.add_goods(other_goods)
+
+        jk = JKInventoryModel()
+        jk.goods_id = 1
+        jk.serial_number = '1111'
+        jk.size_code = 1
+        jk.length = 43
+        jk.total = 100
+
+        jk_id = driver.add_jk_inventory(jk)
+
+        other_jk = jk
+        other_jk.goods_id = 2
+        other_jk.serial_number = '2222'
+
+        driver.add_jk_inventory(other_jk)
+
+        result = driver.jk_inventory_by_goods_id(goods_id)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].id, jk_id)
+

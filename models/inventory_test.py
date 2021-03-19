@@ -1,47 +1,44 @@
 import unittest
 from unittest.mock import MagicMock
-from .jk_inventory_model import JKInventory
-from data import JK, JKSize
 from PySide6.QtCore import Qt
+from .inventory import JK, JKSize, JKInventoryModel
 
-
-class _FakeGoods(object):
+class _FakeGoods:
 
     def __init__(self):
-        jk = JK(None)
-
-        a = jk.new()
-        a.size = JKSize(1, 'S', 1)
+        a = JKInventoryModel()
+        a.size_code = JKSize.S.code
         a.length = 1
-        a.count = 1
+        a.total = 1
 
-        b = jk.new()
-        b.size = JKSize(2, 'M', 2)
+        b = JKInventoryModel()
+        b.size_code = JKSize.M.code
         b.length = 2
-        b.count = 1
+        b.total = 1
 
-        c = jk.new()
-        c.size = JKSize(3, 'L', 3)
+        c = JKInventoryModel()
+        c.size_code = JKSize.L.code
         c.length = 3
-        c.count = 1
+        c.total = 1
 
-        d = jk.new()
-        d.size = c.size
+        d = JKInventoryModel()
+        d.size_code = c.size_code
         d.length = 4
-        d.count = 1
+        d.total = 1
 
-        self.inventory = MagicMock(return_value=[a, b, c, d])
+        self.all_jk_inventory = MagicMock(return_value=[a, b, c, d])
 
-class TestJKInventory(unittest.TestCase):
+
+class TestJK(unittest.TestCase):
 
     def test_rowCount(self):
         fake = _FakeGoods()
-        jk = JKInventory(fake)
+        jk = JK(fake)
         self.assertEqual(jk.rowCount(), 3)
 
     def test_columnCount(self):
         fake = _FakeGoods()
-        jk = JKInventory(fake)
+        jk = JK(fake)
         self.assertEqual(jk.columnCount(), 4)
 
     def test_date(self):
@@ -50,7 +47,7 @@ class TestJKInventory(unittest.TestCase):
         # M    1
         # L       1  1
         fake = _FakeGoods()
-        jk = JKInventory(fake)
+        jk = JK(fake)
 
         index = jk.createIndex(0, 0, jk)
         self.assertEqual(jk.data(index, Qt.DisplayRole), 1)
@@ -63,7 +60,7 @@ class TestJKInventory(unittest.TestCase):
 
     def test_headerData(self):
         fake = _FakeGoods()
-        jk = JKInventory(fake)
+        jk = JK(fake)
 
         self.assertEqual(jk.headerData(0, Qt.Horizontal, Qt.DisplayRole), 1)
         self.assertEqual(jk.headerData(1, Qt.Vertical, Qt.DisplayRole), 'M')
