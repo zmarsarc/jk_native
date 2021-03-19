@@ -145,8 +145,8 @@ class JK(QAbstractTableModel):
 class JKForGoods(JK):
 
     def __init__(self, driver: JKInventoryDataDriver, record: goods.Record, parent=None):
-        super(JKForGoods, self).__init__(driver, parent)
         self._goods_record = record
+        super(JKForGoods, self).__init__(driver, parent)
 
     def _load(self):
         return [Record(self._driver, x) for x in self._driver.jk_inventory_by_goods_id(self._goods_record.id)]

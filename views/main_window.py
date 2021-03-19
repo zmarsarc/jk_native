@@ -3,23 +3,24 @@ from PySide6.QtCore import Slot
 from .ui_mainwindow import Ui_DressShopWindow
 from .add_new_goods import AddNewGoodsDialog
 from .add_jk_stock import AddJKStock
-from models import goods
+from models import goods, inventory
 import data
 
 
 class DressShopMainWindow(QMainWindow):
 
-    def __init__(self, goodsdata):
+    def __init__(self, driver):
         super(DressShopMainWindow, self).__init__()
 
         self._current_goods = None
+        self._data_driver = driver
 
         self.ui = Ui_DressShopWindow()
         self.ui.setupUi(self)
 
         self.ui.btn_add_new_goods.clicked.connect(self.add_new_goods)
         self.ui.btn_new_stock.clicked.connect(self.add_stock)
-        self._goods_model = goods.Goods(goodsdata, self)
+        self._goods_model = goods.Goods(self._data_driver, self)
         self.ui.goods_view.setModel(self._goods_model)
         self.ui.goods_view.selectedGoodsChanged.connect(self.selected_goods_changed)
 
@@ -47,4 +48,5 @@ class DressShopMainWindow(QMainWindow):
     def selected_goods_changed(self, goods):
         self._current_goods = goods
         self.ui.dock_goods_detail.setWindowTitle(f'{goods.type.name}-{goods.name}的库存')
-        # todo: need implement
+        jk = inventory.JKForGoods(self._data_driver, goods)
+        self.ui.inventory_view.setModel(jk)
