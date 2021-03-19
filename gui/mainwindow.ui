@@ -234,7 +234,7 @@
                   <number>0</number>
                  </property>
                  <item row="0" column="0">
-                  <widget class="QTableView" name="inventory_view"/>
+                  <widget class="InventoryView" name="inventory_view"/>
                  </item>
                 </layout>
                </widget>
@@ -303,6 +303,11 @@
    <class>GoodsView</class>
    <extends>QTableView</extends>
    <header>.goods_view</header>
+  </customwidget>
+  <customwidget>
+   <class>InventoryView</class>
+   <extends>QTableView</extends>
+   <header>.inventory_view</header>
   </customwidget>
  </customwidgets>
  <resources>

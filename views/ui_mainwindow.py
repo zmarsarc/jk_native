@@ -13,6 +13,7 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from .goods_view import GoodsView
+from .inventory_view import InventoryView
 
 import resource_rc
 
@@ -105,7 +106,7 @@ class Ui_DressShopWindow(object):
         self.gridLayout_5.setSpacing(0)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
         self.gridLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.inventory_view = QTableView(self.dockWidgetContents_2)
+        self.inventory_view = InventoryView(self.dockWidgetContents_2)
         self.inventory_view.setObjectName(u"inventory_view")
 
         self.gridLayout_5.addWidget(self.inventory_view, 0, 0, 1, 1)
